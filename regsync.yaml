@@ -2,15 +2,15 @@
 # THIS FILE IS AUTO-GENERATED. DO NOT MODIFY IT.
 ##################################################
 creds:
-- pass: '{{ env "DISTRIBUTION_PLATFORM_PASSWORD" }}'
-  registry: '{{ env "DISTRIBUTION_PLATFORM_ENDPOINT" }}'
-  user: '{{ env "DISTRIBUTION_PLATFORM_USERNAME" }}'
-- pass: '{{ env "DOCKER_HUB_PASSWORD" }}'
-  registry: '{{ env "DOCKER_HUB_ENDPOINT" }}'
-  user: '{{ env "DOCKER_HUB_USERNAME" }}'
-- pass: '{{ env "PRIME_REGISTRY_PASSWORD" }}'
-  registry: '{{ env "PRIME_REGISTRY_ENDPOINT" }}'
-  user: '{{ env "PRIME_REGISTRY_USERNAME" }}'
+- pass: '{{ env "APPCO_PASSWORD" }}'
+  registry: '{{ env "APPCO_ENDPOINT" }}'
+  user: '{{ env "APPCO_USERNAME" }}'
+- pass: '{{ env "DOCKER_PASSWORD" }}'
+  registry: '{{ env "DOCKER_ENDPOINT" }}'
+  user: '{{ env "DOCKER_USERNAME" }}'
+- pass: '{{ env "PRIME_PASSWORD" }}'
+  registry: '{{ env "PRIME_ENDPOINT" }}'
+  user: '{{ env "PRIME_USERNAME" }}'
 sync:
 - source: test-org/test-image:v1.2.3
   target: docker.io/rancher/mirrored-test-org-test-image:v1.2.3

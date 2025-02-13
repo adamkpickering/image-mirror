@@ -1,0 +1,44 @@
+name: Mirror Images Using regsync
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - master
+
+jobs:
+  mirror-images:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read Secrets
+        uses: rancher-eio/read-vault-secrets@main
+        with:
+          secrets: |
+            secret/data/github/repo/${{ github.repository }}/dockerhub/rancher/credentials username | DOCKER_USERNAME ;
+            secret/data/github/repo/${{ github.repository }}/dockerhub/rancher/credentials password | DOCKER_PASSWORD ;
+            secret/data/github/repo/${{ github.repository }}/application-collection/credentials username | APPCO_USERNAME ;
+            secret/data/github/repo/${{ github.repository }}/application-collection/credentials password | APPCO_PASSWORD ;
+            secret/data/github/repo/${{ github.repository }}/rancher-prime-registry/credentials username | PRIME_USERNAME ;
+            secret/data/github/repo/${{ github.repository }}/rancher-prime-registry/credentials password | PRIME_PASSWORD
+
+      - name: Install regsync
+        run: |
+          curl --silent --fail --location --output regsync https://github.com/regclient/regclient/releases/download/v0.5.1/regsync-linux-amd64
+          chmod +x regsync
+
+      - name: Sync Container Images
+        run: |
+          time regsync once --config --missing regsync.yaml
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+          APPCO_USERNAME: ${{ secrets.APPCO_USERNAME }}
+          APPCO_PASSWORD: ${{ secrets.APPCO_PASSWORD }}
+          PRIME_USERNAME: ${{ secrets.PRIME_USERNAME }}
+          PRIME_PASSWORD: ${{ secrets.PRIME_PASSWORD }}

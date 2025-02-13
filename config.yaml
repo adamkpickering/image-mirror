@@ -1,10 +1,10 @@
 Repositories:
-  - EnvVarPrefix: DISTRIBUTION_PLATFORM
+  - EnvVarPrefix: APPCO
     BaseUrl: dp.apps.rancher.io/containers
-  - EnvVarPrefix: DOCKER_HUB
+  - EnvVarPrefix: DOCKER
     BaseUrl: docker.io/rancher
     Target: true
-  - EnvVarPrefix: PRIME_REGISTRY
+  - EnvVarPrefix: PRIME
     BaseUrl: registry.suse.com/rancher
     Target: true
 Images:
