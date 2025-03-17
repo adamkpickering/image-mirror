@@ -54,6 +54,19 @@ func Parse(fileName string) (Config, error) {
 	return config, nil
 }
 
+func Write(fileName string, config Config) error {
+	contents, err := yaml.Marshal(config)
+	if err != nil {
+		return fmt.Errorf("failed to unmarshal as JSON: %w", err)
+	}
+
+	if err := os.WriteFile(fileName, contents, 0o644); err != nil {
+		return fmt.Errorf("failed to write: %w", err)
+	}
+
+	return nil
+}
+
 func (image *Image) SetDefaults() error {
 	parts := strings.Split(image.SourceImage, "/")
 	if len(parts) < 2 {

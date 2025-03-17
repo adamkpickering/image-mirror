@@ -7,9 +7,9 @@ import (
 )
 
 type ImagesListEntry struct {
-	Source      string
-	Destination string
-	Tag         string
+	Source string
+	Target string
+	Tag    string
 }
 
 func ParseImagesList(fileName string) ([]ImagesListEntry, error) {
@@ -29,9 +29,9 @@ func ParseImagesList(fileName string) ([]ImagesListEntry, error) {
 			return nil, fmt.Errorf("line %q does not have 3 elements", line)
 		}
 		imagesListEntry := ImagesListEntry{
-			Source:      elements[0],
-			Destination: elements[1],
-			Tag:         elements[2],
+			Source: elements[0],
+			Target: elements[1],
+			Tag:    elements[2],
 		}
 		imagesList = append(imagesList, imagesListEntry)
 	}

@@ -4,13 +4,16 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/rancher/image-mirror/pkg/config"
+	"github.com/rancher/image-mirror/pkg/legacy"
 	"github.com/rancher/image-mirror/pkg/regsync"
 	"github.com/urfave/cli/v2"
 )
 
 const regsyncYamlPath = "regsync.yaml"
+const configJsonPath = "retrieve-image-tags/config.json"
 
 var configYamlPath string
 
@@ -32,6 +35,11 @@ func main() {
 					Destination: &configYamlPath,
 				},
 			},
+		},
+		{
+			Name:   "migrate-images-list",
+			Usage:  "Moves images-list entries not mentioned in config.json to config.yaml",
+			Action: migrateImagesList,
 		},
 	}
 
@@ -97,4 +105,68 @@ func convertConfigImageToRegsyncImages(repo config.Repository, image *config.Ima
 	}
 
 	return entries, nil
+}
+
+func migrateImagesList(ctx *cli.Context) error {
+	imagesListPath := ctx.Args().Get(0)
+	if imagesListPath == "" {
+		return fmt.Errorf("must pass path to images list file as argument")
+	}
+
+	configYaml, err := config.Parse(configYamlPath)
+	if err != nil {
+		return fmt.Errorf("failed to parse %q: %w", configYamlPath, err)
+	}
+	accumulator := config.NewImageAccumulator()
+	for _, existingImage := range configYaml.Images {
+		accumulator.AddImage(*existingImage)
+	}
+
+	legacyImages, err := legacy.ParseImagesList(imagesListPath)
+	if err != nil {
+		return fmt.Errorf("failed to parse %q: %w", imagesListPath, err)
+	}
+
+	configJson, err := legacy.ParseConfig(configJsonPath)
+	if err != nil {
+		return fmt.Errorf("failed to parse %q: %w", configJsonPath, err)
+	}
+
+	for _, legacyImage := range legacyImages {
+		// if image in config.json, skip
+		if configJson.Contains(legacyImage.Source) {
+			continue
+		}
+		newImage, err := convertImageListEntryToImage(legacyImage)
+		if err != nil {
+			return fmt.Errorf("failed to convert %q: %w", legacyImage, err)
+		}
+		accumulator.AddImage(newImage)
+	}
+
+	// set config.Images to accumulated images and write config
+	configYaml.Images = accumulator.Images()
+	if err := config.Write(configYamlPath, configYaml); err != nil {
+		return fmt.Errorf("failed to write %s: %w", configYamlPath, err)
+	}
+
+	return nil
+}
+
+func convertImageListEntryToImage(imageListEntry legacy.ImagesListEntry) (config.Image, error) {
+	parts := strings.Split(imageListEntry.Target, "/")
+	if len(parts) < 2 {
+		return config.Image{}, fmt.Errorf("failed to split %q into 2 parts", imageListEntry.Target)
+	}
+	targetImageName := parts[len(parts)-1]
+
+	image := config.Image{
+		SourceImage: imageListEntry.Source,
+		Tags: []string{
+			imageListEntry.Tag,
+		},
+	}
+	image.SetTargetImageName(targetImageName)
+
+	return image, nil
 }

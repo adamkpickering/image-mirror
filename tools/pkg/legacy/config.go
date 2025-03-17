@@ -32,3 +32,16 @@ func ParseConfig(fileName string) (Config, error) {
 
 	return config, nil
 }
+
+// Returns true if any of the entries' Images fields contains
+// the passed image.
+func (c Config) Contains(image string) bool {
+	for _, configEntry := range c {
+		for _, configImage := range configEntry.Images {
+			if configImage == image {
+				return true
+			}
+		}
+	}
+	return false
+}
