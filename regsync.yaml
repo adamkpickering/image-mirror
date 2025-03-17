@@ -3,13 +3,13 @@
 ##################################################
 creds:
 - pass: '{{ env "APPCO_PASSWORD" }}'
-  registry: '{{ env "APPCO_ENDPOINT" }}'
+  registry: dp.apps.rancher.io
   user: '{{ env "APPCO_USERNAME" }}'
 - pass: '{{ env "DOCKER_PASSWORD" }}'
-  registry: '{{ env "DOCKER_ENDPOINT" }}'
+  registry: docker.io
   user: '{{ env "DOCKER_USERNAME" }}'
 - pass: '{{ env "PRIME_PASSWORD" }}'
-  registry: '{{ env "PRIME_ENDPOINT" }}'
+  registry: registry.suse.com
   user: '{{ env "PRIME_USERNAME" }}'
 sync:
 - source: test-org/test-image:v1.2.3

@@ -58,8 +58,7 @@ func TestGetRegsyncEntries(t *testing.T) {
 				},
 			}
 			inputRepository := config.Repository{
-				EnvVarPrefix: "TEST1",
-				BaseUrl:      "docker.io/test1",
+				BaseUrl: "docker.io/test1",
 			}
 			regsyncEntries, err := convertConfigImageToRegsyncImages(inputRepository, inputImage)
 			if err != nil {

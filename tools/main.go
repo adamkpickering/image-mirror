@@ -55,9 +55,9 @@ func generateRegsyncYaml(ctx *cli.Context) error {
 	}
 	for _, targetRepository := range cfg.Repositories {
 		credEntry := regsync.ConfigCred{
-			Registry: fmt.Sprintf(`{{ env "%s_ENDPOINT" }}`, targetRepository.EnvVarPrefix),
-			User:     fmt.Sprintf(`{{ env "%s_USERNAME" }}`, targetRepository.EnvVarPrefix),
-			Pass:     fmt.Sprintf(`{{ env "%s_PASSWORD" }}`, targetRepository.EnvVarPrefix),
+			Registry: targetRepository.Registry,
+			User:     targetRepository.Username,
+			Pass:     targetRepository.Password,
 		}
 		regsyncYaml.Creds = append(regsyncYaml.Creds, credEntry)
 	}

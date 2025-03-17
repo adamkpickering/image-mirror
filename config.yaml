@@ -1,12 +1,18 @@
 Repositories:
-  - EnvVarPrefix: APPCO
-    BaseUrl: dp.apps.rancher.io/containers
-  - EnvVarPrefix: DOCKER
-    BaseUrl: docker.io/rancher
+  - BaseUrl: dp.apps.rancher.io/containers
+    Registry: dp.apps.rancher.io
+    Username: '{{ env "APPCO_USERNAME" }}'
+    Password: '{{ env "APPCO_PASSWORD" }}'
+  - BaseUrl: docker.io/rancher
     Target: true
-  - EnvVarPrefix: PRIME
-    BaseUrl: registry.suse.com/rancher
+    Registry: docker.io
+    Username: '{{ env "DOCKER_USERNAME" }}'
+    Password: '{{ env "DOCKER_PASSWORD" }}'
+  - BaseUrl: registry.suse.com/rancher
     Target: true
+    Registry: registry.suse.com
+    Username: '{{ env "PRIME_USERNAME" }}'
+    Password: '{{ env "PRIME_PASSWORD" }}'
 Images:
   - SourceImage: test-org/test-image
     Tags:
