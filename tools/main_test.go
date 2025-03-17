@@ -10,14 +10,14 @@ import (
 
 func TestGetRegsyncEntries(t *testing.T) {
 	type TestCase struct {
-		Name            string
-		TargetImageName string
-		ExpectedEntries []regsync.ConfigSync
+		Name                     string
+		SpecifiedTargetImageName string
+		ExpectedEntries          []regsync.ConfigSync
 	}
 	for _, testCase := range []TestCase{
 		{
-			Name:            "should use default image name when TargetImageName is not set",
-			TargetImageName: "",
+			Name:                     "should use default image name when TargetImageName is not set",
+			SpecifiedTargetImageName: "",
 			ExpectedEntries: []regsync.ConfigSync{
 				{
 					Source: "test-org/test-image:v1.2.3",
@@ -32,8 +32,8 @@ func TestGetRegsyncEntries(t *testing.T) {
 			},
 		},
 		{
-			Name:            "should use TargetImageName when it is set",
-			TargetImageName: "other-org-test-image",
+			Name:                     "should use TargetImageName when it is set",
+			SpecifiedTargetImageName: "other-org-test-image",
 			ExpectedEntries: []regsync.ConfigSync{
 				{
 					Source: "test-org/test-image:v1.2.3",
@@ -49,14 +49,17 @@ func TestGetRegsyncEntries(t *testing.T) {
 		},
 	} {
 		t.Run(testCase.Name, func(t *testing.T) {
-			inputImage := config.Image{
-				SourceImage:     "test-org/test-image",
-				TargetImageName: testCase.TargetImageName,
+			inputImage := &config.Image{
+				SourceImage: "test-org/test-image",
 				Tags: []string{
 					"v1.2.3",
 					"v2.3.4",
 				},
 			}
+			if err := inputImage.SetDefaults(); err != nil {
+				t.Fatalf("unexpected error: %s", err)
+			}
+			inputImage.SetTargetImageName(testCase.SpecifiedTargetImageName)
 			inputRepository := config.Repository{
 				EnvVarPrefix: "TEST1",
 				BaseUrl:      "docker.io/test1",
