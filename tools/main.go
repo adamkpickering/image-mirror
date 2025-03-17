@@ -119,7 +119,7 @@ func migrateImagesList(ctx *cli.Context) error {
 	}
 	accumulator := config.NewImageAccumulator()
 	for _, existingImage := range configYaml.Images {
-		accumulator.AddImage(*existingImage)
+		accumulator.AddImage(existingImage)
 	}
 
 	legacyImages, err := legacy.ParseImagesList(imagesListPath)
@@ -153,18 +153,16 @@ func migrateImagesList(ctx *cli.Context) error {
 	return nil
 }
 
-func convertImageListEntryToImage(imageListEntry legacy.ImagesListEntry) (config.Image, error) {
+func convertImageListEntryToImage(imageListEntry legacy.ImagesListEntry) (*config.Image, error) {
 	parts := strings.Split(imageListEntry.Target, "/")
 	if len(parts) < 2 {
-		return config.Image{}, fmt.Errorf("failed to split %q into 2 parts", imageListEntry.Target)
+		return nil, fmt.Errorf("failed to split %q into 2 parts", imageListEntry.Target)
 	}
 	targetImageName := parts[len(parts)-1]
 
-	image := config.Image{
-		SourceImage: imageListEntry.Source,
-		Tags: []string{
-			imageListEntry.Tag,
-		},
+	image, err := config.NewImage(imageListEntry.Source, []string{imageListEntry.Tag})
+	if err != nil {
+		return nil, fmt.Errorf("failed to create new Image: %w", err)
 	}
 	image.SetTargetImageName(targetImageName)
 

@@ -14,6 +14,7 @@ type Config struct {
 	Repositories []Repository
 }
 
+// Image should not be instantiated directly. Instead, use NewImage().
 type Image struct {
 	// The source image without any tags.
 	SourceImage            string
@@ -47,7 +48,7 @@ func Parse(fileName string) (Config, error) {
 	}
 
 	for _, image := range config.Images {
-		if err := image.SetDefaults(); err != nil {
+		if err := image.setDefaults(); err != nil {
 			return Config{}, fmt.Errorf("failed to set defaults for image %q: %w", image, err)
 		}
 	}
@@ -92,11 +93,21 @@ func compareRepositories(a, b Repository) int {
 	return strings.Compare(a.EnvVarPrefix, b.EnvVarPrefix)
 }
 
+func NewImage(sourceImage string, tags []string) (*Image, error) {
+	image := &Image{
+		SourceImage: sourceImage,
+		Tags:        tags,
+	}
+	if err := image.setDefaults(); err != nil {
+		return nil, err
+	}
+	return image, nil
+}
 func (image *Image) Sort() {
 	slices.Sort(image.Tags)
 }
 
-func (image *Image) SetDefaults() error {
+func (image *Image) setDefaults() error {
 	parts := strings.Split(image.SourceImage, "/")
 	if len(parts) < 2 {
 		return fmt.Errorf("source image split into %d parts (>=2 parts expected)", len(parts))

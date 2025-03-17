@@ -49,14 +49,11 @@ func TestGetRegsyncEntries(t *testing.T) {
 		},
 	} {
 		t.Run(testCase.Name, func(t *testing.T) {
-			inputImage := &config.Image{
-				SourceImage: "test-org/test-image",
-				Tags: []string{
-					"v1.2.3",
-					"v2.3.4",
-				},
-			}
-			if err := inputImage.SetDefaults(); err != nil {
+			inputImage, err := config.NewImage("test-org/test-image", []string{
+				"v1.2.3",
+				"v2.3.4",
+			})
+			if err != nil {
 				t.Fatalf("unexpected error: %s", err)
 			}
 			inputImage.SetTargetImageName(testCase.SpecifiedTargetImageName)

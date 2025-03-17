@@ -10,16 +10,16 @@ type sourceTargetPair struct {
 }
 
 type ImageAccumulator struct {
-	mapping map[sourceTargetPair]Image
+	mapping map[sourceTargetPair]*Image
 }
 
 func NewImageAccumulator() *ImageAccumulator {
 	return &ImageAccumulator{
-		mapping: map[sourceTargetPair]Image{},
+		mapping: map[sourceTargetPair]*Image{},
 	}
 }
 
-func (ia *ImageAccumulator) AddImage(newImage Image) {
+func (ia *ImageAccumulator) AddImage(newImage *Image) {
 	pair := sourceTargetPair{
 		SourceImage:     newImage.SourceImage,
 		TargetImageName: newImage.TargetImageName(),
@@ -40,7 +40,7 @@ func (ia *ImageAccumulator) AddImage(newImage Image) {
 func (ia *ImageAccumulator) Images() []*Image {
 	images := make([]*Image, 0, len(ia.mapping))
 	for _, image := range ia.mapping {
-		images = append(images, &image)
+		images = append(images, image)
 	}
 	return images
 }
