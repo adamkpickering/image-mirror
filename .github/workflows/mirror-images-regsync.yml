@@ -16,8 +16,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Read Secrets
+      - name: Check for secrets being set by workflow_dispatch
+        id: check_manual_secrets
+        run: |
+          if [ -n "${{ secrets.DEBUG_DOCKER_USERNAME }}" ]; then
+            echo "manual_secrets=true" >> $GITHUB_OUTPUT
+          elif [ -n "${{ secrets.DEBUG_DOCKER_PASSWORD }}" ]; then
+            echo "manual_secrets=true" >> $GITHUB_OUTPUT
+          elif [ -n "${{ secrets.DEBUG_APPCO_USERNAME }}" ]; then
+            echo "manual_secrets=true" >> $GITHUB_OUTPUT
+          elif [ -n "${{ secrets.DEBUG_APPCO_PASSWORD }}" ]; then
+            echo "manual_secrets=true" >> $GITHUB_OUTPUT
+          elif [ -n "${{ secrets.DEBUG_PRIME_USERNAME }}" ]; then
+            echo "manual_secrets=true" >> $GITHUB_OUTPUT
+          elif [ -n "${{ secrets.DEBUG_PRIME_PASSWORD }}" ]; then
+            echo "manual_secrets=true" >> $GITHUB_OUTPUT
+          else
+            echo "manual_secrets=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Read Secrets (only if not set in workflow_dispatch)
         uses: rancher-eio/read-vault-secrets@main
+        if: ${{ steps.check_manual_secrets.outputs.manual_secrets == 'true' }}
         with:
           secrets: |
             secret/data/github/repo/${{ github.repository }}/dockerhub/rancher/credentials username | DOCKER_USERNAME ;
@@ -36,9 +56,12 @@ jobs:
         run: |
           time regsync once --config --missing regsync.yaml
         env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-          APPCO_USERNAME: ${{ secrets.APPCO_USERNAME }}
-          APPCO_PASSWORD: ${{ secrets.APPCO_PASSWORD }}
-          PRIME_USERNAME: ${{ secrets.PRIME_USERNAME }}
-          PRIME_PASSWORD: ${{ secrets.PRIME_PASSWORD }}
+          # We use a ternary operator here. See
+          # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#example
+          # for more details.
+          DOCKER_USERNAME: ${{ secrets.DEBUG_DOCKER_USERNAME && secrets.DEBUG_DOCKER_USERNAME || secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DEBUG_DOCKER_PASSWORD && secrets.DEBUG_DOCKER_PASSWORD || secrets.DOCKER_PASSWORD }}
+          APPCO_USERNAME: ${{ secrets.DEBUG_APPCO_USERNAME && secrets.DEBUG_APPCO_USERNAME || secrets.APPCO_USERNAME }}
+          APPCO_PASSWORD: ${{ secrets.DEBUG_APPCO_PASSWORD && secrets.DEBUG_APPCO_PASSWORD || secrets.APPCO_PASSWORD }}
+          PRIME_USERNAME: ${{ secrets.DEBUG_PRIME_USERNAME && secrets.DEBUG_PRIME_USERNAME || secrets.PRIME_USERNAME }}
+          PRIME_PASSWORD: ${{ secrets.DEBUG_PRIME_PASSWORD && secrets.DEBUG_PRIME_PASSWORD || secrets.PRIME_PASSWORD }}
