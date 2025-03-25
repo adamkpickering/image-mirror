@@ -51,7 +51,8 @@ jobs:
 
       - name: Sync Container Images
         run: |
-          time regsync once --config --missing regsync.yaml
+          export PATH=$PATH:$(pwd)
+          time regsync once --missing --config regsync.yaml
         env:
           # We use a ternary operator here. See
           # https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/evaluate-expressions-in-workflows-and-actions#example
