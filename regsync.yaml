@@ -8,37 +8,31 @@ creds:
 - pass: '{{ env "DOCKER_PASSWORD" }}'
   registry: docker.io
   user: '{{ env "DOCKER_USERNAME" }}'
-- pass: '{{ env "PRIME_PASSWORD" }}'
-  registry: registry.suse.com
-  user: '{{ env "PRIME_USERNAME" }}'
+- pass: '{{ env "GHCR_PASSWORD" }}'
+  registry: ghcr.io/adamkpickering
+  user: '{{ env "GHCR_USERNAME" }}'
 sync:
-- source: test-org/test-image:v1.2.3
-  target: docker.io/rancher/mirrored-test-org-test-image:v1.2.3
+- source: dp.apps.rancher.io/containers/openjdk:21.0.6-build7-14.12
+  target: docker.io/rancher/appco-testtest-containers-openjdk:21.0.6-build7-14.12
   type: image
-- source: test-org/test-image:v2.3.4
-  target: docker.io/rancher/mirrored-test-org-test-image:v2.3.4
+- source: dp.apps.rancher.io/containers/openjdk:21.0.5-build11-12.20
+  target: docker.io/rancher/appco-testtest-containers-openjdk:21.0.5-build11-12.20
   type: image
-- source: test-org/test-image:v1.2.3
-  target: registry.suse.com/rancher/mirrored-test-org-test-image:v1.2.3
+- source: dp.apps.rancher.io/containers/openjdk:21.0.6-build7-14.12
+  target: ghcr.io/adamkpickering/appco-testtest-containers-openjdk:21.0.6-build7-14.12
   type: image
-- source: test-org/test-image:v2.3.4
-  target: registry.suse.com/rancher/mirrored-test-org-test-image:v2.3.4
+- source: dp.apps.rancher.io/containers/openjdk:21.0.5-build11-12.20
+  target: ghcr.io/adamkpickering/appco-testtest-containers-openjdk:21.0.5-build11-12.20
   type: image
-- source: docker.io/test-org/test-image-2:v2.3.4
-  target: docker.io/rancher/mirrored-test-org-test-image-2:v2.3.4
+- source: rancher/fleet:v0.12.0
+  target: docker.io/rancher/mirrored-rancher-fleet:v0.12.0
   type: image
-- source: docker.io/test-org/test-image-2:v4.50.6
-  target: docker.io/rancher/mirrored-test-org-test-image-2:v4.50.6
+- source: rancher/fleet:v0.11.5
+  target: docker.io/rancher/mirrored-rancher-fleet:v0.11.5
   type: image
-- source: docker.io/test-org/test-image-2:v40.5.6
-  target: docker.io/rancher/mirrored-test-org-test-image-2:v40.5.6
+- source: rancher/fleet:v0.12.0
+  target: ghcr.io/adamkpickering/mirrored-rancher-fleet:v0.12.0
   type: image
-- source: docker.io/test-org/test-image-2:v2.3.4
-  target: registry.suse.com/rancher/mirrored-test-org-test-image-2:v2.3.4
-  type: image
-- source: docker.io/test-org/test-image-2:v4.50.6
-  target: registry.suse.com/rancher/mirrored-test-org-test-image-2:v4.50.6
-  type: image
-- source: docker.io/test-org/test-image-2:v40.5.6
-  target: registry.suse.com/rancher/mirrored-test-org-test-image-2:v40.5.6
+- source: rancher/fleet:v0.11.5
+  target: ghcr.io/adamkpickering/mirrored-rancher-fleet:v0.11.5
   type: image

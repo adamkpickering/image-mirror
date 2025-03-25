@@ -8,18 +8,18 @@ Repositories:
     Registry: docker.io
     Username: '{{ env "DOCKER_USERNAME" }}'
     Password: '{{ env "DOCKER_PASSWORD" }}'
-  - BaseUrl: registry.suse.com/rancher
+  - BaseUrl: ghcr.io/adamkpickering
     Target: true
-    Registry: registry.suse.com
-    Username: '{{ env "PRIME_USERNAME" }}'
-    Password: '{{ env "PRIME_PASSWORD" }}'
+    Registry: ghcr.io/adamkpickering
+    Username: '{{ env "GHCR_USERNAME" }}'
+    Password: '{{ env "GHCR_PASSWORD" }}'
 Images:
-  - SourceImage: test-org/test-image
+  - SourceImage: dp.apps.rancher.io/containers/openjdk
+    TargetImageName: appco-testtest-containers-openjdk
     Tags:
-      - v1.2.3
-      - v2.3.4
-  - SourceImage: docker.io/test-org/test-image-2
+      - 21.0.6-build7-14.12
+      - 21.0.5-build11-12.20
+  - SourceImage: rancher/fleet
     Tags:
-      - v2.3.4
-      - v4.50.6
-      - v40.5.6
+      - v0.12.0
+      - v0.11.5
