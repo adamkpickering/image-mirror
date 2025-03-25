@@ -52,7 +52,7 @@ jobs:
       - name: Sync Container Images
         run: |
           export PATH=$PATH:$(pwd)
-          echo $DOCKER_USERNAME
+          echo "$DOCKER_USERNAME"
           time regsync once --missing --config regsync.yaml
         env:
           # We use a ternary operator here. See
