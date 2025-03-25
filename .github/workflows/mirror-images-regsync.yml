@@ -2,9 +2,6 @@ name: Mirror Images Using regsync
 
 on:
   workflow_dispatch: {}
-  push:
-    branches:
-      - master
 
 jobs:
   mirror-images:
@@ -27,9 +24,9 @@ jobs:
             echo "manual_secrets=true" >> $GITHUB_OUTPUT
           elif [ -n "${{ secrets.DEBUG_APPCO_PASSWORD }}" ]; then
             echo "manual_secrets=true" >> $GITHUB_OUTPUT
-          elif [ -n "${{ secrets.DEBUG_PRIME_USERNAME }}" ]; then
+          elif [ -n "${{ secrets.DEBUG_GHCR_USERNAME }}" ]; then
             echo "manual_secrets=true" >> $GITHUB_OUTPUT
-          elif [ -n "${{ secrets.DEBUG_PRIME_PASSWORD }}" ]; then
+          elif [ -n "${{ secrets.DEBUG_GHCR_PASSWORD }}" ]; then
             echo "manual_secrets=true" >> $GITHUB_OUTPUT
           else
             echo "manual_secrets=false" >> $GITHUB_OUTPUT
@@ -44,8 +41,8 @@ jobs:
             secret/data/github/repo/${{ github.repository }}/dockerhub/rancher/credentials password | DOCKER_PASSWORD ;
             secret/data/github/repo/${{ github.repository }}/application-collection/credentials username | APPCO_USERNAME ;
             secret/data/github/repo/${{ github.repository }}/application-collection/credentials password | APPCO_PASSWORD ;
-            secret/data/github/repo/${{ github.repository }}/rancher-prime-registry/credentials username | PRIME_USERNAME ;
-            secret/data/github/repo/${{ github.repository }}/rancher-prime-registry/credentials password | PRIME_PASSWORD
+            secret/data/github/repo/${{ github.repository }}/rancher-prime-registry/credentials username | GHCR_USERNAME ;
+            secret/data/github/repo/${{ github.repository }}/rancher-prime-registry/credentials password | GHCR_PASSWORD
 
       - name: Install regsync
         run: |
@@ -63,5 +60,5 @@ jobs:
           DOCKER_PASSWORD: ${{ secrets.DEBUG_DOCKER_PASSWORD && secrets.DEBUG_DOCKER_PASSWORD || secrets.DOCKER_PASSWORD }}
           APPCO_USERNAME: ${{ secrets.DEBUG_APPCO_USERNAME && secrets.DEBUG_APPCO_USERNAME || secrets.APPCO_USERNAME }}
           APPCO_PASSWORD: ${{ secrets.DEBUG_APPCO_PASSWORD && secrets.DEBUG_APPCO_PASSWORD || secrets.APPCO_PASSWORD }}
-          PRIME_USERNAME: ${{ secrets.DEBUG_PRIME_USERNAME && secrets.DEBUG_PRIME_USERNAME || secrets.PRIME_USERNAME }}
-          PRIME_PASSWORD: ${{ secrets.DEBUG_PRIME_PASSWORD && secrets.DEBUG_PRIME_PASSWORD || secrets.PRIME_PASSWORD }}
+          GHCR_USERNAME: ${{ secrets.DEBUG_GHCR_USERNAME && secrets.DEBUG_GHCR_USERNAME || secrets.GHCR_USERNAME }}
+          GHCR_PASSWORD: ${{ secrets.DEBUG_GHCR_PASSWORD && secrets.DEBUG_GHCR_PASSWORD || secrets.GHCR_PASSWORD }}
