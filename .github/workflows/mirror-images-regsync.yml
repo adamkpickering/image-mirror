@@ -32,6 +32,11 @@ jobs:
             echo "manual_secrets=false" >> $GITHUB_OUTPUT
           fi
 
+      - name: Print manual_secrets variable
+        run:
+          echo "${{ steps.check_manual_secrets.outputs.manual_secrets }}"
+          echo "${{ steps.check_manual_secrets.outputs.manual_secrets == 'true' }}"
+
       - name: Read Secrets (only if not set in workflow_dispatch)
         uses: rancher-eio/read-vault-secrets@main
         if: ${{ steps.check_manual_secrets.outputs.manual_secrets == 'true' }}
