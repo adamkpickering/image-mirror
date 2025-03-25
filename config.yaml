@@ -3,7 +3,7 @@ Repositories:
     Registry: dp.apps.rancher.io
     Username: '{{ env "APPCO_USERNAME" }}'
     Password: '{{ env "APPCO_PASSWORD" }}'
-  - BaseUrl: docker.io/rancher
+  - BaseUrl: docker.io/adamkpickering
     Target: true
     Registry: docker.io
     Username: '{{ env "DOCKER_USERNAME" }}'

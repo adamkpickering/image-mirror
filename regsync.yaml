@@ -13,10 +13,10 @@ creds:
   user: '{{ env "GHCR_USERNAME" }}'
 sync:
 - source: dp.apps.rancher.io/containers/openjdk:21.0.6-build7-14.12
-  target: docker.io/rancher/appco-testtest-containers-openjdk:21.0.6-build7-14.12
+  target: docker.io/adamkpickering/appco-testtest-containers-openjdk:21.0.6-build7-14.12
   type: image
 - source: dp.apps.rancher.io/containers/openjdk:21.0.5-build11-12.20
-  target: docker.io/rancher/appco-testtest-containers-openjdk:21.0.5-build11-12.20
+  target: docker.io/adamkpickering/appco-testtest-containers-openjdk:21.0.5-build11-12.20
   type: image
 - source: dp.apps.rancher.io/containers/openjdk:21.0.6-build7-14.12
   target: ghcr.io/adamkpickering/appco-testtest-containers-openjdk:21.0.6-build7-14.12
@@ -25,10 +25,10 @@ sync:
   target: ghcr.io/adamkpickering/appco-testtest-containers-openjdk:21.0.5-build11-12.20
   type: image
 - source: rancher/fleet:v0.12.0
-  target: docker.io/rancher/mirrored-rancher-fleet:v0.12.0
+  target: docker.io/adamkpickering/mirrored-rancher-fleet:v0.12.0
   type: image
 - source: rancher/fleet:v0.11.5
-  target: docker.io/rancher/mirrored-rancher-fleet:v0.11.5
+  target: docker.io/adamkpickering/mirrored-rancher-fleet:v0.11.5
   type: image
 - source: rancher/fleet:v0.12.0
   target: ghcr.io/adamkpickering/mirrored-rancher-fleet:v0.12.0
