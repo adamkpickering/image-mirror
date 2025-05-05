@@ -1,7 +1,6 @@
 package autoupdate
 
 import (
-	"context"
 	"errors"
 	"fmt"
 	"os"
@@ -30,8 +29,11 @@ func Parse(filePath string) ([]ConfigEntry, error) {
 	return config, nil
 }
 
-type GithubLatestRelease struct {
-	Owner      string
-	Repository string
-	Images     []string
+func (entry ConfigEntry) GetLatestImages() ([]*config.Image, error) {
+	switch {
+	case entry.GithubLatestRelease != nil:
+		return entry.GithubLatestRelease.GetLatestImages()
+	default:
+		return nil, errors.New("did not find update strategy")
+	}
 }
