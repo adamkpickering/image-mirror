@@ -143,9 +143,7 @@ func migrateImagesList(_ context.Context, cmd *cli.Command) error {
 		return fmt.Errorf("failed to parse config: %w", err)
 	}
 	accumulator := config.NewImageAccumulator()
-	for _, existingImage := range configYaml.Images {
-		accumulator.AddImage(existingImage)
-	}
+	accumulator.AddImages(configYaml.Images...)
 
 	imagesListComment, legacyImages, err := legacy.ParseImagesList(imagesListPath)
 	if err != nil {
@@ -168,7 +166,7 @@ func migrateImagesList(_ context.Context, cmd *cli.Command) error {
 			if err != nil {
 				return fmt.Errorf("failed to convert %q: %w", legacyImage, err)
 			}
-			accumulator.AddImage(newImage)
+			accumulator.AddImages(newImage)
 		} else {
 			legacyImagesToKeep = append(legacyImagesToKeep, legacyImage)
 			continue

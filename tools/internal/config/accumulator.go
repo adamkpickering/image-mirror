@@ -20,22 +20,24 @@ func NewImageAccumulator() *ImageAccumulator {
 	}
 }
 
-func (ia *ImageAccumulator) AddImage(newImage *Image) {
-	pair := imageIndex{
-		DoNotMirror:     newImage.DoNotMirror,
-		SourceImage:     newImage.SourceImage,
-		TargetImageName: newImage.TargetImageName(),
-	}
-	existingImage, ok := ia.mapping[pair]
-	if !ok {
-		ia.mapping[pair] = newImage
-	} else {
-		for _, newTag := range newImage.Tags {
-			if !slices.Contains(existingImage.Tags, newTag) {
-				existingImage.Tags = append(existingImage.Tags, newTag)
-			}
+func (ia *ImageAccumulator) AddImages(newImages ...*Image) {
+	for _, newImage := range newImages {
+		pair := imageIndex{
+			DoNotMirror:     newImage.DoNotMirror,
+			SourceImage:     newImage.SourceImage,
+			TargetImageName: newImage.TargetImageName(),
 		}
-		ia.mapping[pair] = existingImage
+		existingImage, ok := ia.mapping[pair]
+		if !ok {
+			ia.mapping[pair] = newImage
+		} else {
+			for _, newTag := range newImage.Tags {
+				if !slices.Contains(existingImage.Tags, newTag) {
+					existingImage.Tags = append(existingImage.Tags, newTag)
+				}
+			}
+			ia.mapping[pair] = existingImage
+		}
 	}
 }
 
