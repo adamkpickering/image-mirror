@@ -1,0 +1,93 @@
+- GithubLatestRelease:
+    Images:
+    - quay.io/calico/apiserver
+    - quay.io/calico/cni
+    - quay.io/calico/csi
+    - quay.io/calico/ctl
+    - quay.io/calico/kube-controllers
+    - quay.io/calico/node
+    - quay.io/calico/node-driver-registrar
+    - quay.io/calico/pod2daemon-flexvol
+    - quay.io/calico/typha
+    Owner: projectcalico
+    Repository: calico
+  Name: calico
+- GithubLatestRelease:
+    Images:
+    - registry.k8s.io/sig-storage/csi-attacher
+    Owner: kubernetes-csi
+    Repository: external-attacher
+  Name: csi-attacher
+- GithubLatestRelease:
+    Images:
+    - registry.k8s.io/sig-storage/csi-node-driver-registrar
+    Owner: kubernetes-csi
+    Repository: node-driver-registrar
+  Name: csi-driver-registrar
+- GithubLatestRelease:
+    Images:
+    - registry.k8s.io/sig-storage/csi-provisioner
+    Owner: kubernetes-csi
+    Repository: external-provisioner
+  Name: csi-provisioner
+- GithubLatestRelease:
+    Images:
+    - registry.k8s.io/sig-storage/csi-resizer
+    Owner: kubernetes-csi
+    Repository: external-resizer
+  Name: csi-resizer
+- GithubLatestRelease:
+    Images:
+    - registry.k8s.io/sig-storage/csi-snapshotter
+    Owner: kubernetes-csi
+    Repository: external-snapshotter
+  Name: csi-snapshotter
+- GithubLatestRelease:
+    Images:
+    - flannel/flannel
+    Owner: flannel-io
+    Repository: flannel
+  Name: flannel
+- GithubLatestRelease:
+    Images:
+    - flannel/flannel-cni-plugin
+    Owner: flannel-io
+    Repository: cni-plugin
+  Name: flannel-cni-plugin
+- GithubLatestRelease:
+    Images:
+    - ghcr.io/kube-vip/kube-vip-iptables
+    Owner: kube-vip
+    Repository: kube-vip
+  Name: kube-vip-iptables
+- GithubLatestRelease:
+    Images:
+    - idealista/prom2teams
+    Owner: idealista
+    Repository: prom2teams
+  Name: prom2teams
+- GithubLatestRelease:
+    Images:
+    - registry.k8s.io/sig-storage/snapshot-controller
+    Owner: kubernetes-csi
+    Repository: external-snapshotter
+  Name: snapshot-controller
+- GithubLatestRelease:
+    Images:
+    - sonobuoy/sonobuoy
+    Owner: vmware-tanzu
+    Repository: sonobuoy
+  Name: sonobuoy
+- GithubLatestRelease:
+    Images:
+    - registry.k8s.io/sig-storage/livenessprobe
+    Owner: kubernetes-csi
+    Repository: livenessprobe
+  Name: storage-livenessprobe
+- GithubLatestRelease:
+    Images:
+    - registry.k8s.io/csi-vsphere/driver
+    - registry.k8s.io/csi-vsphere/syncer
+    Owner: kubernetes-sigs
+    Repository: vsphere-csi-driver
+  Name: vsphere-csi
