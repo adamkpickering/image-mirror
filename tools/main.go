@@ -6,14 +6,17 @@ import (
 	"os"
 	"strings"
 
+	"github.com/rancher/image-mirror/internal/autoupdate"
 	"github.com/rancher/image-mirror/internal/config"
 	"github.com/rancher/image-mirror/internal/legacy"
 	"github.com/rancher/image-mirror/internal/regsync"
+
 	"github.com/urfave/cli/v3"
 )
 
 const regsyncYamlPath = "regsync.yaml"
 const configJsonPath = "retrieve-image-tags/config.json"
+const autoUpdateYamlPath = "autoupdate.yaml"
 
 var configYamlPath string
 var imagesListPath string
@@ -30,6 +33,11 @@ func main() {
 			},
 		},
 		Commands: []*cli.Command{
+			{
+				Name:   "auto-update",
+				Usage:  "Update config.yaml according to autoupdate.yaml",
+				Action: autoUpdate,
+			},
 			{
 				Name:   "format",
 				Usage:  "Enforce formatting on certain files",
@@ -211,5 +219,35 @@ func formatFiles(_ context.Context, _ *cli.Command) error {
 	if err := config.Write(configYamlPath, configJson); err != nil {
 		return fmt.Errorf("failed to write config: %w", err)
 	}
+	return nil
+}
+
+func autoUpdate(_ context.Context, _ *cli.Command) error {
+	configYaml, err := config.Parse(configYamlPath)
+	if err != nil {
+		return fmt.Errorf("failed to parse %s: %w", configYamlPath, err)
+	}
+	accumulator := config.NewImageAccumulator()
+	accumulator.AddImages(configYaml.Images...)
+
+	autoUpdateConfig, err := autoupdate.Parse(autoUpdateYamlPath)
+	if err != nil {
+		return fmt.Errorf("failed to parse %s: %w", autoUpdateYamlPath, err)
+	}
+
+	for _, entry := range autoUpdateConfig {
+		latestImages, err := entry.GetLatestImages()
+		if err != nil {
+			fmt.Printf("failed to get latest images for %s: %s\n", entry.Name, err)
+			continue
+		}
+		accumulator.AddImages(latestImages...)
+	}
+
+	configYaml.Images = accumulator.Images()
+	if err := config.Write(configYamlPath, configYaml); err != nil {
+		return fmt.Errorf("failed to write %s: %w", configYamlPath, err)
+	}
+
 	return nil
 }
