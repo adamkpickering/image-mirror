@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -11,6 +12,8 @@ import (
 	"github.com/rancher/image-mirror/internal/legacy"
 	"github.com/rancher/image-mirror/internal/regsync"
 
+	"github.com/go-git/go-git/v5"
+	"github.com/google/go-github/v71/github"
 	"github.com/urfave/cli/v3"
 )
 
@@ -228,13 +231,17 @@ func formatFiles(_ context.Context, _ *cli.Command) error {
 	return nil
 }
 
-func autoUpdate(_ context.Context, _ *cli.Command) error {
+func autoUpdate(ctx context.Context, _ *cli.Command) error {
+	if clean, err := isWorkingTreeClean(); err != nil {
+		return fmt.Errorf("failed to get status of working tree: %w", err)
+	} else if !clean {
+		return errors.New("working tree or index has changes")
+	}
+
 	configYaml, err := config.Parse(configYamlPath)
 	if err != nil {
 		return fmt.Errorf("failed to parse %s: %w", configYamlPath, err)
 	}
-	accumulator := config.NewImageAccumulator()
-	accumulator.AddImages(configYaml.Images...)
 
 	autoUpdateConfig, err := autoupdate.Parse(autoUpdateYamlPath)
 	if err != nil {
@@ -244,16 +251,73 @@ func autoUpdate(_ context.Context, _ *cli.Command) error {
 	for _, entry := range autoUpdateConfig {
 		latestImages, err := entry.GetLatestImages()
 		if err != nil {
-			fmt.Printf("failed to get latest images for %s: %s\n", entry.Name, err)
+			fmt.Printf("Failed to get latest images for %s: %s\n", entry.Name, err)
 			continue
 		}
-		accumulator.AddImages(latestImages...)
-	}
 
-	configYaml.Images = accumulator.Images()
-	if err := config.Write(configYamlPath, configYaml); err != nil {
-		return fmt.Errorf("failed to write %s: %w", configYamlPath, err)
+		accumulator := config.NewImageAccumulator()
+		accumulator.AddImages(configYaml.Images...)
+
+		needToUpdate := false
+		for _, latestImage := range latestImages {
+			if !accumulator.Contains(latestImage) {
+				needToUpdate = true
+				break
+			}
+		}
+		if !needToUpdate {
+			fmt.Printf("No updates found for %s\n", entry.Name)
+		}
+
+		// this might need to be changed depending on the update strategy
+		tagName := latestImages[0].Tags[0]
+		branchName := fmt.Sprintf("auto-update/%s/%s", entry.Name, tagName)
+
+		ghClient := github.NewClient(nil)
+		pullRequests, _, err := ghClient.PullRequests.List(ctx, "rancher", "image-mirror", &github.PullRequestListOptions{
+			Head:  branchName,
+			State: "all",
+		})
+		if err != nil {
+			fmt.Printf("Failed to list pull requests for %s: %s", entry.Name, err)
+			continue
+		}
+		if len(pullRequests) == 1 {
+			fmt.Printf("Found existing PR for %s tag %s: %s", entry.Name, tagName, *pullRequests[0].URL)
+			continue
+		} else if len(pullRequests) > 1 {
+			pullRequestString := ""
+			for _, pullRequest := range pullRequests {
+				pullRequestString = pullRequestString + "\n\t" + *pullRequest.URL
+			}
+			fmt.Printf("Warning: found multiple existing PRs for %s tag %s:%s", entry.Name, tagName, pullRequestString)
+			continue
+		}
+
+		// TODO: this happens later
+		accumulator.AddImages(latestImages...)
+
+		configYaml.Images = accumulator.Images()
+		if err := config.Write(configYamlPath, configYaml); err != nil {
+			return fmt.Errorf("failed to write %s: %w", configYamlPath, err)
+		}
 	}
 
 	return nil
+}
+
+func isWorkingTreeClean() (bool, error) {
+	repo, err := git.PlainOpen(".")
+	if err != nil {
+		return false, fmt.Errorf("failed to open git repository: %w", err)
+	}
+	workingTree, err := repo.Worktree()
+	if err != nil {
+		return false, fmt.Errorf("failed to get working tree: %w", err)
+	}
+	workingTreeStatus, err := workingTree.Status()
+	if err != nil {
+		return false, fmt.Errorf("failed to get status of workingtree: %w", err)
+	}
+	return workingTreeStatus.IsClean(), nil
 }

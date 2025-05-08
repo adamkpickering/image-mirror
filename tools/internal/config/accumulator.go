@@ -39,6 +39,15 @@ func (ia *ImageAccumulator) AddImages(newImages ...*Image) {
 	}
 }
 
+func (ia *ImageAccumulator) Contains(image *Image) bool {
+	pair := sourceTargetPair{
+		SourceImage:     image.SourceImage,
+		TargetImageName: image.TargetImageName(),
+	}
+	_, ok := ia.mapping[pair]
+	return ok
+}
+
 func (ia *ImageAccumulator) Images() []*Image {
 	images := make([]*Image, 0, len(ia.mapping))
 	for _, image := range ia.mapping {
