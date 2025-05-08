@@ -73,44 +73,14 @@ func main() {
 // generateRegsyncYaml regenerates the regsync config file from the current state
 // of config.yaml.
 func generateRegsyncYaml(_ context.Context, _ *cli.Command) error {
-	cfg, err := config.Parse(configYamlPath)
+	configYaml, err := config.Parse(configYamlPath)
 	if err != nil {
 		return fmt.Errorf("failed to parse %s: %w", configYamlPath, err)
 	}
 
-	regsyncYaml := regsync.Config{
-		Creds: make([]regsync.ConfigCred, 0, len(cfg.Repositories)),
-		Defaults: regsync.ConfigDefaults{
-			UserAgent: "rancher-image-mirror",
-		},
-		Sync: make([]regsync.ConfigSync, 0),
-	}
-	for _, targetRepository := range cfg.Repositories {
-		credEntry := regsync.ConfigCred{
-			Pass:          targetRepository.Password,
-			Registry:      targetRepository.Registry,
-			ReqConcurrent: targetRepository.ReqConcurrent,
-			User:          targetRepository.Username,
-		}
-		regsyncYaml.Creds = append(regsyncYaml.Creds, credEntry)
-	}
-	for _, image := range cfg.Images {
-		if image.DoNotMirror {
-			continue
-		}
-		for _, repo := range cfg.Repositories {
-			if !repo.Target {
-				continue
-			}
-			if strings.HasPrefix(image.SourceImage, repo.BaseUrl) {
-				continue
-			}
-			syncEntries, err := convertConfigImageToRegsyncImages(repo, image)
-			if err != nil {
-				return fmt.Errorf("failed to convert Image with SourceImage %q: %w", image.SourceImage, err)
-			}
-			regsyncYaml.Sync = append(regsyncYaml.Sync, syncEntries...)
-		}
+	regsyncYaml, err := configYaml.ToRegsyncConfig()
+	if err != nil {
+		return err
 	}
 
 	if err := regsync.WriteConfig(regsyncYamlPath, regsyncYaml); err != nil {
@@ -118,25 +88,6 @@ func generateRegsyncYaml(_ context.Context, _ *cli.Command) error {
 	}
 
 	return nil
-}
-
-// convertConfigImageToRegsyncImages converts image into one ConfigSync (i.e. an
-// image for regsync to sync) for each tag present in image. repo provides the
-// target repository for each ConfigSync.
-func convertConfigImageToRegsyncImages(repo config.Repository, image *config.Image) ([]regsync.ConfigSync, error) {
-	entries := make([]regsync.ConfigSync, 0, len(image.Tags))
-	for _, tag := range image.Tags {
-		sourceImage := image.SourceImage + ":" + tag
-		targetImage := repo.BaseUrl + "/" + image.TargetImageName() + ":" + tag
-		entry := regsync.ConfigSync{
-			Source: sourceImage,
-			Target: targetImage,
-			Type:   "image",
-		}
-		entries = append(entries, entry)
-	}
-
-	return entries, nil
 }
 
 func migrateImagesList(_ context.Context, cmd *cli.Command) error {
