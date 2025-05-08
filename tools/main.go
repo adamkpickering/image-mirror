@@ -2,18 +2,22 @@ package main
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
 
 	"github.com/rancher/image-mirror/internal/autoupdate"
 	"github.com/rancher/image-mirror/internal/config"
+	"github.com/rancher/image-mirror/internal/git"
 	"github.com/rancher/image-mirror/internal/legacy"
 	"github.com/rancher/image-mirror/internal/paths"
 	"github.com/rancher/image-mirror/internal/regsync"
 
 	"github.com/urfave/cli/v3"
 )
+
+var dryRun bool
 
 func main() {
 	cmd := &cli.Command{
@@ -28,9 +32,23 @@ func main() {
 		},
 		Commands: []*cli.Command{
 			{
-				Name:   "auto-update",
+				Name:   "autoupdate",
 				Usage:  "Update config.yaml according to autoupdate.yaml",
 				Action: autoUpdate,
+				Flags: []cli.Flag{
+					&cli.BoolFlag{
+						Name:        "dry-run",
+						Aliases:     []string{"n"},
+						Usage:       "Only print what would be done",
+						Destination: &dryRun,
+					},
+					&cli.StringFlag{
+						Name:        "entry",
+						Aliases:     []string{"e"},
+						Usage:       "Autoupdate specific entry instead of all",
+						Destination: &entryName,
+					},
+				},
 			},
 			{
 				Name:   "format",
@@ -176,31 +194,30 @@ func formatFiles(_ context.Context, _ *cli.Command) error {
 	return nil
 }
 
-func autoUpdate(_ context.Context, _ *cli.Command) error {
+func autoUpdate(ctx context.Context, _ *cli.Command) error {
+	if !dryRun {
+		if clean, err := git.IsWorkingTreeClean(); err != nil {
+			return fmt.Errorf("failed to get status of working tree: %w", err)
+		} else if !clean {
+			return errors.New("working tree or index has changes")
+		}
+	}
+
 	configYaml, err := config.Parse(paths.ConfigYaml)
 	if err != nil {
 		return fmt.Errorf("failed to parse %s: %w", paths.ConfigYaml, err)
 	}
-	accumulator := config.NewImageAccumulator()
-	accumulator.AddImages(configYaml.Images...)
 
-	autoUpdateConfig, err := autoupdate.Parse(paths.AutoUpdateYaml)
+	autoUpdateEntries, err := autoupdate.Parse(paths.AutoUpdateYaml)
 	if err != nil {
 		return fmt.Errorf("failed to parse %s: %w", paths.AutoUpdateYaml, err)
 	}
 
-	for _, entry := range autoUpdateConfig {
-		latestImages, err := entry.GetLatestImages()
-		if err != nil {
-			fmt.Printf("failed to get latest images for %s: %s\n", entry.Name, err)
+	for _, autoUpdateEntry := range autoUpdateEntries {
+		if err := autoUpdateEntry.AutoUpdate(ctx, configYaml, dryRun); err != nil {
+			fmt.Printf("%s: error: %s\n", autoUpdateEntry.Name, err)
 			continue
 		}
-		accumulator.AddImages(latestImages...)
-	}
-
-	configYaml.Images = accumulator.Images()
-	if err := config.Write(paths.ConfigYaml, configYaml); err != nil {
-		return fmt.Errorf("failed to write %s: %w", paths.ConfigYaml, err)
 	}
 
 	return nil

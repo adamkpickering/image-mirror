@@ -1,6 +1,7 @@
 package config
 
 import (
+	"fmt"
 	"slices"
 )
 
@@ -39,6 +40,24 @@ func (ia *ImageAccumulator) AddImages(newImages ...*Image) {
 			ia.mapping[pair] = existingImage
 		}
 	}
+}
+
+// Contains tells the caller whether the ImageAccumulator contains
+// image. image is assumed to have a Tags element of length 1.
+func (ia *ImageAccumulator) Contains(image *Image) bool {
+	if len(image.Tags) > 1 {
+		fmt.Printf("Warning: passed image %q contains multiple tags: %s\n", image.SourceImage, image.Tags)
+	}
+	pair := imageIndex{
+		DoNotMirror:     image.DoNotMirror,
+		SourceImage:     image.SourceImage,
+		TargetImageName: image.TargetImageName(),
+	}
+	foundImage, ok := ia.mapping[pair]
+	if !ok {
+		return false
+	}
+	return slices.Contains(foundImage.Tags, image.Tags[0])
 }
 
 func (ia *ImageAccumulator) Images() []*Image {
