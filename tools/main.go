@@ -212,13 +212,22 @@ func convertImageListEntryToImage(imageListEntry legacy.ImagesListEntry) (*confi
 }
 
 func formatFiles(_ context.Context, _ *cli.Command) error {
-	configJson, err := config.Parse(configYamlPath)
+	configYaml, err := config.Parse(configYamlPath)
 	if err != nil {
-		return fmt.Errorf("failed to parse config: %w", err)
+		return fmt.Errorf("failed to parse %s: %w", configYamlPath, err)
 	}
-	if err := config.Write(configYamlPath, configJson); err != nil {
-		return fmt.Errorf("failed to write config: %w", err)
+	if err := config.Write(configYamlPath, configYaml); err != nil {
+		return fmt.Errorf("failed to write %s: %w", configYamlPath, err)
 	}
+
+	autoUpdateYaml, err := autoupdate.Parse(autoUpdateYamlPath)
+	if err != nil {
+		return fmt.Errorf("failed to parse %s: %w", autoUpdateYamlPath, err)
+	}
+	if err := autoupdate.Write(autoUpdateYamlPath, autoUpdateYaml); err != nil {
+		return fmt.Errorf("failed to write %s: %w", autoUpdateYamlPath, err)
+	}
+
 	return nil
 }
 
