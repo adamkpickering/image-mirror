@@ -9,17 +9,11 @@ import (
 	"github.com/rancher/image-mirror/internal/autoupdate"
 	"github.com/rancher/image-mirror/internal/config"
 	"github.com/rancher/image-mirror/internal/legacy"
+	"github.com/rancher/image-mirror/internal/paths"
 	"github.com/rancher/image-mirror/internal/regsync"
 
 	"github.com/urfave/cli/v3"
 )
-
-const regsyncYamlPath = "regsync.yaml"
-const configJsonPath = "retrieve-image-tags/config.json"
-const autoUpdateYamlPath = "autoupdate.yaml"
-
-var configYamlPath string
-var imagesListPath string
 
 func main() {
 	cmd := &cli.Command{
@@ -29,7 +23,7 @@ func main() {
 				Aliases:     []string{"c"},
 				Value:       "config.yaml",
 				Usage:       "Path to config.yaml file",
-				Destination: &configYamlPath,
+				Destination: &paths.ConfigYaml,
 			},
 		},
 		Commands: []*cli.Command{
@@ -57,7 +51,7 @@ func main() {
 						Name:        "images-list-path",
 						Value:       "images-list",
 						Usage:       "Path to images list file",
-						Destination: &imagesListPath,
+						Destination: &paths.ImagesList,
 					},
 				},
 			},
@@ -73,9 +67,9 @@ func main() {
 // generateRegsyncYaml regenerates the regsync config file from the current state
 // of config.yaml.
 func generateRegsyncYaml(_ context.Context, _ *cli.Command) error {
-	configYaml, err := config.Parse(configYamlPath)
+	configYaml, err := config.Parse(paths.ConfigYaml)
 	if err != nil {
-		return fmt.Errorf("failed to parse %s: %w", configYamlPath, err)
+		return fmt.Errorf("failed to parse %s: %w", paths.ConfigYaml, err)
 	}
 
 	regsyncYaml, err := configYaml.ToRegsyncConfig()
@@ -83,8 +77,8 @@ func generateRegsyncYaml(_ context.Context, _ *cli.Command) error {
 		return err
 	}
 
-	if err := regsync.WriteConfig(regsyncYamlPath, regsyncYaml); err != nil {
-		return fmt.Errorf("failed to write %s: %w", regsyncYamlPath, err)
+	if err := regsync.WriteConfig(paths.RegsyncYaml, regsyncYaml); err != nil {
+		return fmt.Errorf("failed to write %s: %w", paths.RegsyncYaml, err)
 	}
 
 	return nil
@@ -97,25 +91,25 @@ func migrateImagesList(_ context.Context, cmd *cli.Command) error {
 	sourceImage := cmd.Args().Get(0)
 	targetImage := cmd.Args().Get(1)
 
-	configYaml, err := config.Parse(configYamlPath)
+	configYaml, err := config.Parse(paths.ConfigYaml)
 	if err != nil {
 		return fmt.Errorf("failed to parse config: %w", err)
 	}
 	accumulator := config.NewImageAccumulator()
 	accumulator.AddImages(configYaml.Images...)
 
-	imagesListComment, legacyImages, err := legacy.ParseImagesList(imagesListPath)
+	imagesListComment, legacyImages, err := legacy.ParseImagesList(paths.ImagesList)
 	if err != nil {
 		return fmt.Errorf("failed to parse images list: %w", err)
 	}
 
-	configJson, err := legacy.ParseConfig(configJsonPath)
+	configJson, err := legacy.ParseConfig(paths.ConfigJson)
 	if err != nil {
-		return fmt.Errorf("failed to parse %q: %w", configJsonPath, err)
+		return fmt.Errorf("failed to parse %q: %w", paths.ConfigJson, err)
 	}
 
 	if configJson.Contains(sourceImage) {
-		fmt.Printf("warning: %s refers to image with source %q\n", configJsonPath, sourceImage)
+		fmt.Printf("warning: %s refers to image with source %q\n", paths.ConfigJson, sourceImage)
 	}
 
 	legacyImagesToKeep := make([]legacy.ImagesListEntry, 0, len(legacyImages))
@@ -134,13 +128,13 @@ func migrateImagesList(_ context.Context, cmd *cli.Command) error {
 
 	// set config.Images to accumulated images and write config
 	configYaml.Images = accumulator.Images()
-	if err := config.Write(configYamlPath, configYaml); err != nil {
-		return fmt.Errorf("failed to write %s: %w", configYamlPath, err)
+	if err := config.Write(paths.ConfigYaml, configYaml); err != nil {
+		return fmt.Errorf("failed to write %s: %w", paths.ConfigYaml, err)
 	}
 
 	// write kept legacy images
-	if err := legacy.WriteImagesList(imagesListPath, imagesListComment, legacyImagesToKeep); err != nil {
-		return fmt.Errorf("failed to write %s: %w", imagesListPath, err)
+	if err := legacy.WriteImagesList(paths.ImagesList, imagesListComment, legacyImagesToKeep); err != nil {
+		return fmt.Errorf("failed to write %s: %w", paths.ImagesList, err)
 	}
 
 	return nil
@@ -163,36 +157,36 @@ func convertImageListEntryToImage(imageListEntry legacy.ImagesListEntry) (*confi
 }
 
 func formatFiles(_ context.Context, _ *cli.Command) error {
-	configYaml, err := config.Parse(configYamlPath)
+	configYaml, err := config.Parse(paths.ConfigYaml)
 	if err != nil {
-		return fmt.Errorf("failed to parse %s: %w", configYamlPath, err)
+		return fmt.Errorf("failed to parse %s: %w", paths.ConfigYaml, err)
 	}
-	if err := config.Write(configYamlPath, configYaml); err != nil {
-		return fmt.Errorf("failed to write %s: %w", configYamlPath, err)
+	if err := config.Write(paths.ConfigYaml, configYaml); err != nil {
+		return fmt.Errorf("failed to write %s: %w", paths.ConfigYaml, err)
 	}
 
-	autoUpdateYaml, err := autoupdate.Parse(autoUpdateYamlPath)
+	autoUpdateYaml, err := autoupdate.Parse(paths.AutoUpdateYaml)
 	if err != nil {
-		return fmt.Errorf("failed to parse %s: %w", autoUpdateYamlPath, err)
+		return fmt.Errorf("failed to parse %s: %w", paths.AutoUpdateYaml, err)
 	}
-	if err := autoupdate.Write(autoUpdateYamlPath, autoUpdateYaml); err != nil {
-		return fmt.Errorf("failed to write %s: %w", autoUpdateYamlPath, err)
+	if err := autoupdate.Write(paths.AutoUpdateYaml, autoUpdateYaml); err != nil {
+		return fmt.Errorf("failed to write %s: %w", paths.AutoUpdateYaml, err)
 	}
 
 	return nil
 }
 
 func autoUpdate(_ context.Context, _ *cli.Command) error {
-	configYaml, err := config.Parse(configYamlPath)
+	configYaml, err := config.Parse(paths.ConfigYaml)
 	if err != nil {
-		return fmt.Errorf("failed to parse %s: %w", configYamlPath, err)
+		return fmt.Errorf("failed to parse %s: %w", paths.ConfigYaml, err)
 	}
 	accumulator := config.NewImageAccumulator()
 	accumulator.AddImages(configYaml.Images...)
 
-	autoUpdateConfig, err := autoupdate.Parse(autoUpdateYamlPath)
+	autoUpdateConfig, err := autoupdate.Parse(paths.AutoUpdateYaml)
 	if err != nil {
-		return fmt.Errorf("failed to parse %s: %w", autoUpdateYamlPath, err)
+		return fmt.Errorf("failed to parse %s: %w", paths.AutoUpdateYaml, err)
 	}
 
 	for _, entry := range autoUpdateConfig {
@@ -205,8 +199,8 @@ func autoUpdate(_ context.Context, _ *cli.Command) error {
 	}
 
 	configYaml.Images = accumulator.Images()
-	if err := config.Write(configYamlPath, configYaml); err != nil {
-		return fmt.Errorf("failed to write %s: %w", configYamlPath, err)
+	if err := config.Write(paths.ConfigYaml, configYaml); err != nil {
+		return fmt.Errorf("failed to write %s: %w", paths.ConfigYaml, err)
 	}
 
 	return nil
