@@ -18,6 +18,7 @@ import (
 )
 
 var dryRun bool
+var entryName string
 
 func main() {
 	cmd := &cli.Command{
@@ -214,6 +215,10 @@ func autoUpdate(ctx context.Context, _ *cli.Command) error {
 	}
 
 	for _, autoUpdateEntry := range autoUpdateEntries {
+		if autoUpdateEntry.Name != entryName && entryName != "" {
+			fmt.Printf("%s: skipped\n", autoUpdateEntry.Name)
+			continue
+		}
 		if err := autoUpdateEntry.AutoUpdate(ctx, configYaml, dryRun); err != nil {
 			fmt.Printf("%s: error: %s\n", autoUpdateEntry.Name, err)
 			continue
