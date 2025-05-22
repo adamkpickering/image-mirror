@@ -3761,6 +3761,12 @@ sync:
 - source: quay.io/calico/pod2daemon-flexvol:v3.30.0
   target: registry.suse.com/rancher/mirrored-calico-pod2daemon-flexvol:v3.30.0
   type: image
+- source: quay.io/calico/typha:v3.30.0
+  target: docker.io/rancher/mirrored-calico-typha:v3.30.0
+  type: image
+- source: quay.io/calico/typha:v3.30.0
+  target: registry.suse.com/rancher/mirrored-calico-typha:v3.30.0
+  type: image
 - source: rancher/cluster-proportional-autoscaler:1.7.1
   target: docker.io/rancher/mirrored-cluster-proportional-autoscaler:1.7.1
   type: image
