@@ -938,6 +938,9 @@ Images:
 - SourceImage: pstauffer/curl
   Tags:
   - v1.0.3
+- SourceImage: quay.io/calico/apiserver
+  Tags:
+  - v3.30.0
 - SourceImage: rancher/cluster-proportional-autoscaler
   Tags:
   - 1.7.1
