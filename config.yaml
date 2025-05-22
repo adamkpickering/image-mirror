@@ -90,6 +90,9 @@ Images:
   Tags:
   - v0.7.0
   - v0.8.3
+- SourceImage: flannel/flannel
+  Tags:
+  - v0.26.7
 - SourceImage: flannelcni/flannel
   Tags:
   - v0.16.0
