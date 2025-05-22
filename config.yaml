@@ -944,6 +944,9 @@ Images:
 - SourceImage: quay.io/calico/cni
   Tags:
   - v3.30.0
+- SourceImage: quay.io/calico/csi
+  Tags:
+  - v3.30.0
 - SourceImage: rancher/cluster-proportional-autoscaler
   Tags:
   - 1.7.1
