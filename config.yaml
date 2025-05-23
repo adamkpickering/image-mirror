@@ -411,9 +411,6 @@ Images:
   - 3.11.6
   - 3.12.3
   - 3.8.0
-- SourceImage: idealista/prom2teams
-  Tags:
-  - 5.0.0
 - SourceImage: istio/citadel
   Tags:
   - 1.5.9
@@ -1098,6 +1095,9 @@ Images:
   - v0.11.2
   - v0.12.0
   - v0.9.0
+- SourceImage: registry.k8s.io/sig-storage/snapshot-controller
+  Tags:
+  - v8.2.0
 - SourceImage: registry.k8s.io/sig-storage/snapshot-validation-webhook
   Tags:
   - v6.1.0
