@@ -3869,6 +3869,12 @@ sync:
 - source: registry.k8s.io/cpa/cluster-proportional-autoscaler:v1.9.0
   target: registry.suse.com/rancher/mirrored-cluster-proportional-autoscaler:v1.9.0
   type: image
+- source: registry.k8s.io/csi-vsphere/driver:v3.4.0
+  target: docker.io/rancher/mirrored-csi-vsphere-driver:v3.4.0
+  type: image
+- source: registry.k8s.io/csi-vsphere/driver:v3.4.0
+  target: registry.suse.com/rancher/mirrored-csi-vsphere-driver:v3.4.0
+  type: image
 - source: registry.k8s.io/dns/k8s-dns-dnsmasq-nanny:1.17.3
   target: docker.io/rancher/mirrored-k8s-dns-dnsmasq-nanny:1.17.3
   type: image
@@ -4336,12 +4342,6 @@ sync:
   type: image
 - source: registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.9.0
   target: registry.suse.com/rancher/mirrored-prometheus-adapter-prometheus-adapter:v0.9.0
-  type: image
-- source: registry.k8s.io/sig-storage/livenessprobe:v2.15.0
-  target: docker.io/rancher/mirrored-sig-storage-livenessprobe:v2.15.0
-  type: image
-- source: registry.k8s.io/sig-storage/livenessprobe:v2.15.0
-  target: registry.suse.com/rancher/mirrored-sig-storage-livenessprobe:v2.15.0
   type: image
 - source: registry.k8s.io/sig-storage/snapshot-validation-webhook:v6.1.0
   target: docker.io/rancher/mirrored-sig-storage-snapshot-validation-webhook:v6.1.0

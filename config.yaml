@@ -985,6 +985,9 @@ Images:
   - v1.8.9
   - v1.9.0
   TargetImageName: mirrored-cluster-proportional-autoscaler
+- SourceImage: registry.k8s.io/csi-vsphere/driver
+  Tags:
+  - v3.4.0
 - SourceImage: registry.k8s.io/dns/k8s-dns-dnsmasq-nanny
   Tags:
   - 1.17.3
@@ -1095,9 +1098,6 @@ Images:
   - v0.11.2
   - v0.12.0
   - v0.9.0
-- SourceImage: registry.k8s.io/sig-storage/livenessprobe
-  Tags:
-  - v2.15.0
 - SourceImage: registry.k8s.io/sig-storage/snapshot-validation-webhook
   Tags:
   - v6.1.0
