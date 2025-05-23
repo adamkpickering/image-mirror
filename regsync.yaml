@@ -4337,12 +4337,6 @@ sync:
 - source: registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.9.0
   target: registry.suse.com/rancher/mirrored-prometheus-adapter-prometheus-adapter:v0.9.0
   type: image
-- source: registry.k8s.io/sig-storage/snapshot-controller:v8.2.0
-  target: docker.io/rancher/mirrored-sig-storage-snapshot-controller:v8.2.0
-  type: image
-- source: registry.k8s.io/sig-storage/snapshot-controller:v8.2.0
-  target: registry.suse.com/rancher/mirrored-sig-storage-snapshot-controller:v8.2.0
-  type: image
 - source: registry.k8s.io/sig-storage/snapshot-validation-webhook:v6.1.0
   target: docker.io/rancher/mirrored-sig-storage-snapshot-validation-webhook:v6.1.0
   type: image
@@ -4438,6 +4432,12 @@ sync:
   type: image
 - source: sigwindowstools/k8s-gmsa-webhook:v0.3.0
   target: registry.suse.com/rancher/mirrored-sigwindowstools-k8s-gmsa-webhook:v0.3.0
+  type: image
+- source: sonobuoy/sonobuoy:v0.57.3
+  target: docker.io/rancher/mirrored-sonobuoy-sonobuoy:v0.57.3
+  type: image
+- source: sonobuoy/sonobuoy:v0.57.3
+  target: registry.suse.com/rancher/mirrored-sonobuoy-sonobuoy:v0.57.3
   type: image
 - source: squareup/ghostunnel:v1.5.2
   target: docker.io/rancher/mirrored-squareup-ghostunnel:v1.5.2
