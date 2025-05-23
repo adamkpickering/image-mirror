@@ -90,9 +90,6 @@ Images:
   Tags:
   - v0.7.0
   - v0.8.3
-- SourceImage: flannel/flannel-cni-plugin
-  Tags:
-  - v1.7.1-flannel1
 - SourceImage: flannelcni/flannel
   Tags:
   - v0.16.0
@@ -373,6 +370,9 @@ Images:
   - 4.4.0
   - 4.8.0
   - 4.9.1
+- SourceImage: ghcr.io/kube-vip/kube-vip-iptables
+  Tags:
+  - v0.9.1
 - SourceImage: ghcr.io/prometheus-community/windows-exporter
   Tags:
   - 0.25.1
