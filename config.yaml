@@ -370,9 +370,6 @@ Images:
   - 4.4.0
   - 4.8.0
   - 4.9.1
-- SourceImage: ghcr.io/kube-vip/kube-vip-iptables
-  Tags:
-  - v0.9.1
 - SourceImage: ghcr.io/prometheus-community/windows-exporter
   Tags:
   - 0.25.1
@@ -414,6 +411,9 @@ Images:
   - 3.11.6
   - 3.12.3
   - 3.8.0
+- SourceImage: idealista/prom2teams
+  Tags:
+  - 5.0.0
 - SourceImage: istio/citadel
   Tags:
   - 1.5.9

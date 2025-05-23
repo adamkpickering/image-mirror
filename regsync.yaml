@@ -1103,12 +1103,6 @@ sync:
 - source: ghcr.io/kube-logging/logging-operator:4.9.1
   target: registry.suse.com/rancher/mirrored-kube-logging-logging-operator:4.9.1
   type: image
-- source: ghcr.io/kube-vip/kube-vip-iptables:v0.9.1
-  target: docker.io/rancher/mirrored-kube-vip-kube-vip-iptables:v0.9.1
-  type: image
-- source: ghcr.io/kube-vip/kube-vip-iptables:v0.9.1
-  target: registry.suse.com/rancher/mirrored-kube-vip-kube-vip-iptables:v0.9.1
-  type: image
 - source: ghcr.io/prometheus-community/windows-exporter:0.25.1
   target: docker.io/rancher/mirrored-prometheus-windows-exporter:0.25.1
   type: image
@@ -1276,6 +1270,12 @@ sync:
   type: image
 - source: grafana/grafana-image-renderer:3.8.0
   target: registry.suse.com/rancher/mirrored-grafana-grafana-image-renderer:3.8.0
+  type: image
+- source: idealista/prom2teams:5.0.0
+  target: docker.io/rancher/mirrored-idealista-prom2teams:5.0.0
+  type: image
+- source: idealista/prom2teams:5.0.0
+  target: registry.suse.com/rancher/mirrored-idealista-prom2teams:5.0.0
   type: image
 - source: istio/citadel:1.5.9
   target: docker.io/rancher/mirrored-istio-citadel:1.5.9
