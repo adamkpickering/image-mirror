@@ -28,6 +28,12 @@ func Parse(filePath string) ([]ConfigEntry, error) {
 		return nil, fmt.Errorf("failed to unmarshal: %w", err)
 	}
 
+	for _, entry := range config {
+		if err := entry.Validate(); err != nil {
+			return nil, fmt.Errorf("entry %q failed validation: %w", entry.Name, err)
+		}
+	}
+
 	return config, nil
 }
 
@@ -45,6 +51,16 @@ func Write(filePath string, config []ConfigEntry) error {
 		return fmt.Errorf("failed to write file: %w", err)
 	}
 
+	return nil
+}
+
+func (entry ConfigEntry) Validate() error {
+	if entry.Name == "" {
+		return errors.New("must specify Name")
+	}
+	if entry.GithubLatestRelease == nil {
+		return errors.New("must specify an autoupdate strategy")
+	}
 	return nil
 }
 
