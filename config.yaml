@@ -1095,6 +1095,9 @@ Images:
   - v0.11.2
   - v0.12.0
   - v0.9.0
+- SourceImage: registry.k8s.io/sig-storage/livenessprobe
+  Tags:
+  - v2.15.0
 - SourceImage: registry.k8s.io/sig-storage/snapshot-validation-webhook
   Tags:
   - v6.1.0
@@ -1143,9 +1146,6 @@ Images:
 - SourceImage: sigwindowstools/k8s-gmsa-webhook
   Tags:
   - v0.3.0
-- SourceImage: sonobuoy/sonobuoy
-  Tags:
-  - v0.57.3
 - SourceImage: squareup/ghostunnel
   Tags:
   - v1.5.2
