@@ -365,6 +365,12 @@ sync:
 - source: directxman12/k8s-prometheus-adapter-amd64:v0.8.3
   target: registry.suse.com/rancher/mirrored-directxman12-k8s-prometheus-adapter-amd64:v0.8.3
   type: image
+- source: flannel/flannel-cni-plugin:v1.7.1-flannel1
+  target: docker.io/rancher/mirrored-flannel-flannel-cni-plugin:v1.7.1-flannel1
+  type: image
+- source: flannel/flannel-cni-plugin:v1.7.1-flannel1
+  target: registry.suse.com/rancher/mirrored-flannel-flannel-cni-plugin:v1.7.1-flannel1
+  type: image
 - source: flannelcni/flannel:v0.16.0
   target: docker.io/rancher/mirrored-flannelcni-flannel:v0.16.0
   type: image
@@ -4336,12 +4342,6 @@ sync:
   type: image
 - source: registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.9.0
   target: registry.suse.com/rancher/mirrored-prometheus-adapter-prometheus-adapter:v0.9.0
-  type: image
-- source: registry.k8s.io/sig-storage/csi-snapshotter:v8.2.0
-  target: docker.io/rancher/mirrored-sig-storage-csi-snapshotter:v8.2.0
-  type: image
-- source: registry.k8s.io/sig-storage/csi-snapshotter:v8.2.0
-  target: registry.suse.com/rancher/mirrored-sig-storage-csi-snapshotter:v8.2.0
   type: image
 - source: registry.k8s.io/sig-storage/snapshot-validation-webhook:v6.1.0
   target: docker.io/rancher/mirrored-sig-storage-snapshot-validation-webhook:v6.1.0

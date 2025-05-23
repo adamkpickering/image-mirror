@@ -90,6 +90,9 @@ Images:
   Tags:
   - v0.7.0
   - v0.8.3
+- SourceImage: flannel/flannel-cni-plugin
+  Tags:
+  - v1.7.1-flannel1
 - SourceImage: flannelcni/flannel
   Tags:
   - v0.16.0
@@ -1095,9 +1098,6 @@ Images:
   - v0.11.2
   - v0.12.0
   - v0.9.0
-- SourceImage: registry.k8s.io/sig-storage/csi-snapshotter
-  Tags:
-  - v8.2.0
 - SourceImage: registry.k8s.io/sig-storage/snapshot-validation-webhook
   Tags:
   - v6.1.0
