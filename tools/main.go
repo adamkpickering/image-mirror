@@ -214,6 +214,7 @@ func autoUpdate(ctx context.Context, _ *cli.Command) error {
 		return fmt.Errorf("failed to parse %s: %w", paths.AutoUpdateYaml, err)
 	}
 
+	errorPresent := false
 	for _, autoUpdateEntry := range autoUpdateEntries {
 		if autoUpdateEntry.Name != entryName && entryName != "" {
 			fmt.Printf("%s: skipped\n", autoUpdateEntry.Name)
@@ -221,8 +222,12 @@ func autoUpdate(ctx context.Context, _ *cli.Command) error {
 		}
 		if err := autoUpdateEntry.AutoUpdate(ctx, configYaml, dryRun); err != nil {
 			fmt.Printf("%s: error: %s\n", autoUpdateEntry.Name, err)
+			errorPresent = true
 			continue
 		}
+	}
+	if errorPresent {
+		return fmt.Errorf("one or more %s entries failed to update; please see above logs for details", paths.AutoUpdateYaml)
 	}
 
 	return nil
