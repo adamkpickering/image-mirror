@@ -962,6 +962,9 @@ Images:
 - SourceImage: quay.io/calico/pod2daemon-flexvol
   Tags:
   - v3.30.0
+- SourceImage: quay.io/calico/typha
+  Tags:
+  - v3.30.0
 - SourceImage: rancher/cluster-proportional-autoscaler
   Tags:
   - 1.7.1
