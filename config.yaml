@@ -956,6 +956,9 @@ Images:
 - SourceImage: quay.io/calico/node
   Tags:
   - v3.30.0
+- SourceImage: quay.io/calico/node-driver-registrar
+  Tags:
+  - v3.30.0
 - SourceImage: rancher/cluster-proportional-autoscaler
   Tags:
   - 1.7.1
