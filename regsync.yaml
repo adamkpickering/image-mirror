@@ -3713,6 +3713,12 @@ sync:
 - source: pstauffer/curl:v1.0.3
   target: registry.suse.com/rancher/mirrored-pstauffer-curl:v1.0.3
   type: image
+- source: quay.io/calico/apiserver:v3.30.0
+  target: docker.io/rancher/mirrored-calico-apiserver:v3.30.0
+  type: image
+- source: quay.io/calico/apiserver:v3.30.0
+  target: registry.suse.com/rancher/mirrored-calico-apiserver:v3.30.0
+  type: image
 - source: rancher/cluster-proportional-autoscaler:1.7.1
   target: docker.io/rancher/mirrored-cluster-proportional-autoscaler:1.7.1
   type: image
