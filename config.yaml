@@ -411,6 +411,9 @@ Images:
   - 3.11.6
   - 3.12.3
   - 3.8.0
+- SourceImage: idealista/prom2teams
+  Tags:
+  - 5.0.0
 - SourceImage: istio/citadel
   Tags:
   - 1.5.9

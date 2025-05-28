@@ -1271,6 +1271,12 @@ sync:
 - source: grafana/grafana-image-renderer:3.8.0
   target: registry.suse.com/rancher/mirrored-grafana-grafana-image-renderer:3.8.0
   type: image
+- source: idealista/prom2teams:5.0.0
+  target: docker.io/rancher/mirrored-idealista-prom2teams:5.0.0
+  type: image
+- source: idealista/prom2teams:5.0.0
+  target: registry.suse.com/rancher/mirrored-idealista-prom2teams:5.0.0
+  type: image
 - source: istio/citadel:1.5.9
   target: docker.io/rancher/mirrored-istio-citadel:1.5.9
   type: image
