@@ -3725,6 +3725,12 @@ sync:
 - source: quay.io/calico/cni:v3.30.0
   target: registry.suse.com/rancher/mirrored-calico-cni:v3.30.0
   type: image
+- source: quay.io/calico/csi:v3.30.0
+  target: docker.io/rancher/mirrored-calico-csi:v3.30.0
+  type: image
+- source: quay.io/calico/csi:v3.30.0
+  target: registry.suse.com/rancher/mirrored-calico-csi:v3.30.0
+  type: image
 - source: rancher/cluster-proportional-autoscaler:1.7.1
   target: docker.io/rancher/mirrored-cluster-proportional-autoscaler:1.7.1
   type: image
