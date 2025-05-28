@@ -3743,6 +3743,12 @@ sync:
 - source: quay.io/calico/kube-controllers:v3.30.0
   target: registry.suse.com/rancher/mirrored-calico-kube-controllers:v3.30.0
   type: image
+- source: quay.io/calico/node:v3.30.0
+  target: docker.io/rancher/mirrored-calico-node:v3.30.0
+  type: image
+- source: quay.io/calico/node:v3.30.0
+  target: registry.suse.com/rancher/mirrored-calico-node:v3.30.0
+  type: image
 - source: rancher/cluster-proportional-autoscaler:1.7.1
   target: docker.io/rancher/mirrored-cluster-proportional-autoscaler:1.7.1
   type: image
