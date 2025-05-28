@@ -4337,6 +4337,12 @@ sync:
 - source: registry.k8s.io/prometheus-adapter/prometheus-adapter:v0.9.0
   target: registry.suse.com/rancher/mirrored-prometheus-adapter-prometheus-adapter:v0.9.0
   type: image
+- source: registry.k8s.io/sig-storage/csi-snapshotter:v8.2.0
+  target: docker.io/rancher/mirrored-sig-storage-csi-snapshotter:v8.2.0
+  type: image
+- source: registry.k8s.io/sig-storage/csi-snapshotter:v8.2.0
+  target: registry.suse.com/rancher/mirrored-sig-storage-csi-snapshotter:v8.2.0
+  type: image
 - source: registry.k8s.io/sig-storage/snapshot-validation-webhook:v6.1.0
   target: docker.io/rancher/mirrored-sig-storage-snapshot-validation-webhook:v6.1.0
   type: image
