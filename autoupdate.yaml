@@ -153,6 +153,8 @@
     Owner: idealista
     Repository: prom2teams
   Name: prom2teams
+  Reviewers:
+    - rancher/observation-backup
 - GithubRelease:
     Images:
     - SourceImage: registry.k8s.io/sig-storage/snapshot-controller
