@@ -13,6 +13,8 @@
     Owner: projectcalico
     Repository: calico
   Name: calico
+  Reviewers:
+    - rancher/k3s-networking
 - HelmLatest:
     Charts:
       tigera-operator:
@@ -22,6 +24,8 @@
     - SourceImage: quay.io/tigera/operator
       TargetImageName: mirrored-calico-operator
   Name: calico-operator
+  Reviewers:
+    - rancher/k3s-networking
 - HelmLatest:
     Charts:
       cilium:
@@ -52,11 +56,15 @@
     - SourceImage: quay.io/cilium/hubble-relay
     - SourceImage: quay.io/cilium/hubble-ui-backend
   Name: cilium
+  Reviewers:
+    - rancher/k3s-networking
 - Name: cpi-release-manager
   Registry:
     Images:
     - SourceImage: registry.k8s.io/cloud-pv-vsphere/cloud-provider-vsphere
     VersionFilter: ^v1.([3-9][0-9]).[0-9]+$
+  Reviewers:
+    - rancher/k3s
 - GithubRelease:
     Images:
     - SourceImage: registry.k8s.io/sig-storage/csi-attacher
@@ -64,6 +72,8 @@
     Owner: kubernetes-csi
     Repository: external-attacher
   Name: csi-attacher
+  Reviewers:
+    - rancher/k3s
 - GithubRelease:
     Images:
     - SourceImage: registry.k8s.io/sig-storage/csi-node-driver-registrar
@@ -71,6 +81,8 @@
     Owner: kubernetes-csi
     Repository: node-driver-registrar
   Name: csi-driver-registrar
+  Reviewers:
+    - rancher/k3s
 - GithubRelease:
     Images:
     - SourceImage: registry.k8s.io/sig-storage/csi-provisioner
@@ -78,6 +90,8 @@
     Owner: kubernetes-csi
     Repository: external-provisioner
   Name: csi-provisioner
+  Reviewers:
+    - rancher/k3s
 - GithubRelease:
     Images:
     - SourceImage: registry.k8s.io/sig-storage/csi-resizer
@@ -85,6 +99,8 @@
     Owner: kubernetes-csi
     Repository: external-resizer
   Name: csi-resizer
+  Reviewers:
+    - rancher/k3s
 - GithubRelease:
     Images:
     - SourceImage: registry.k8s.io/sig-storage/csi-snapshotter
@@ -92,6 +108,8 @@
     Owner: kubernetes-csi
     Repository: external-snapshotter
   Name: csi-snapshotter
+  Reviewers:
+    - rancher/k3s
 - GithubRelease:
     Images:
     - SourceImage: quay.io/coreos/etcd
@@ -99,6 +117,8 @@
     Repository: etcd
     VersionConstraint: '>3.5.10'
   Name: etcd
+  Reviewers:
+    - rancher/k3s
 - GithubRelease:
     Images:
     - SourceImage: flannel/flannel
@@ -106,6 +126,8 @@
     Owner: flannel-io
     Repository: flannel
   Name: flannel
+  Reviewers:
+    - rancher/k3s-networking
 - GithubRelease:
     Images:
     - SourceImage: flannel/flannel-cni-plugin
@@ -113,6 +135,8 @@
     Owner: flannel-io
     Repository: cni-plugin
   Name: flannel-cni-plugin
+  Reviewers:
+    - rancher/k3s-networking
 - GithubRelease:
     Images:
     - SourceImage: ghcr.io/kube-vip/kube-vip-iptables
@@ -120,6 +144,8 @@
     Owner: kube-vip
     Repository: kube-vip
   Name: kube-vip-iptables
+  Reviewers:
+    - rancher/k3s-networking
 - GithubRelease:
     Images:
     - SourceImage: idealista/prom2teams
@@ -134,6 +160,8 @@
     Owner: kubernetes-csi
     Repository: external-snapshotter
   Name: snapshot-controller
+  Reviewers:
+    - rancher/k3s
 - GithubRelease:
     Images:
     - SourceImage: sonobuoy/sonobuoy
@@ -148,18 +176,24 @@
     Owner: kubernetes-csi
     Repository: livenessprobe
   Name: storage-livenessprobe
+  Reviewers:
+    - rancher/k3s
 - Name: traefik
   Registry:
     Images:
     - SourceImage: library/traefik
     Latest: true
     VersionFilter: ^2.[0-9]+.[0-9]+$
+  Reviewers:
+    - rancher/k3s
 - Name: traefik3
   Registry:
     Images:
     - SourceImage: library/traefik
     Latest: true
     VersionFilter: ^3.[0-9]+.[0-9]+$
+  Reviewers:
+    - rancher/k3s
 - GithubRelease:
     Images:
     - SourceImage: registry.k8s.io/csi-vsphere/driver
@@ -170,3 +204,5 @@
     Owner: kubernetes-sigs
     Repository: vsphere-csi-driver
   Name: vsphere-csi
+  Reviewers:
+    - rancher/k3s
