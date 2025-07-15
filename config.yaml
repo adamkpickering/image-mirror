@@ -2505,6 +2505,7 @@ Images:
   Tags:
   - v3.3.1
   - v3.4.0
+  - v3.5.0
   TargetImageName: mirrored-cloud-provider-vsphere-csi-release-driver
 - SourceImage: registry.k8s.io/csi-vsphere/syncer
   Tags:

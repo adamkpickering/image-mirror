@@ -11691,11 +11691,17 @@ sync:
 - source: registry.k8s.io/csi-vsphere/driver:v3.4.0
   target: docker.io/rancher/mirrored-cloud-provider-vsphere-csi-release-driver:v3.4.0
   type: image
+- source: registry.k8s.io/csi-vsphere/driver:v3.5.0
+  target: docker.io/rancher/mirrored-cloud-provider-vsphere-csi-release-driver:v3.5.0
+  type: image
 - source: registry.k8s.io/csi-vsphere/driver:v3.3.1
   target: registry.suse.com/rancher/mirrored-cloud-provider-vsphere-csi-release-driver:v3.3.1
   type: image
 - source: registry.k8s.io/csi-vsphere/driver:v3.4.0
   target: registry.suse.com/rancher/mirrored-cloud-provider-vsphere-csi-release-driver:v3.4.0
+  type: image
+- source: registry.k8s.io/csi-vsphere/driver:v3.5.0
+  target: registry.suse.com/rancher/mirrored-cloud-provider-vsphere-csi-release-driver:v3.5.0
   type: image
 - source: registry.k8s.io/csi-vsphere/syncer:v3.3.1
   target: docker.io/rancher/mirrored-cloud-provider-vsphere-csi-release-syncer:v3.3.1
