@@ -10362,6 +10362,9 @@ sync:
 - source: quay.io/coreos/etcd:v3.6.1
   target: docker.io/rancher/mirrored-coreos-etcd:v3.6.1
   type: image
+- source: quay.io/coreos/etcd:v3.6.2
+  target: docker.io/rancher/mirrored-coreos-etcd:v3.6.2
+  type: image
 - source: quay.io/coreos/etcd:v3.5.0
   target: registry.suse.com/rancher/mirrored-coreos-etcd:v3.5.0
   type: image
@@ -10424,6 +10427,9 @@ sync:
   type: image
 - source: quay.io/coreos/etcd:v3.6.1
   target: registry.suse.com/rancher/mirrored-coreos-etcd:v3.6.1
+  type: image
+- source: quay.io/coreos/etcd:v3.6.2
+  target: registry.suse.com/rancher/mirrored-coreos-etcd:v3.6.2
   type: image
 - source: quay.io/coreos/flannel:v0.13.0
   target: docker.io/rancher/mirrored-coreos-flannel:v0.13.0
