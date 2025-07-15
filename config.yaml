@@ -2198,6 +2198,7 @@ Images:
   - v3.5.9
   - v3.6.0
   - v3.6.1
+  - v3.6.2
 - SourceImage: quay.io/coreos/flannel
   Tags:
   - v0.13.0
