@@ -11907,8 +11907,14 @@ sync:
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1
   target: docker.io/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.1.1
   type: image
+- source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.2.0
+  target: docker.io/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.2.0
+  type: image
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.3.0
   target: docker.io/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.3.0
+  type: image
+- source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.0
+  target: docker.io/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.4.0
   type: image
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.1
   target: docker.io/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.4.1
@@ -11931,6 +11937,9 @@ sync:
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.5.3
   target: docker.io/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.5.3
   type: image
+- source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.5.4
+  target: docker.io/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.5.4
+  type: image
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0
   target: docker.io/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.6.0
   type: image
@@ -11952,8 +11961,14 @@ sync:
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.1.1
   target: registry.suse.com/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.1.1
   type: image
+- source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.2.0
+  target: registry.suse.com/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.2.0
+  type: image
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.3.0
   target: registry.suse.com/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.3.0
+  type: image
+- source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.0
+  target: registry.suse.com/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.4.0
   type: image
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.1
   target: registry.suse.com/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.4.1
@@ -11975,6 +11990,9 @@ sync:
   type: image
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.5.3
   target: registry.suse.com/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.5.3
+  type: image
+- source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.5.4
+  target: registry.suse.com/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.5.4
   type: image
 - source: registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.6.0
   target: registry.suse.com/rancher/mirrored-ingress-nginx-kube-webhook-certgen:v1.6.0
