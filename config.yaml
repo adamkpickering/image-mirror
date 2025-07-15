@@ -2696,6 +2696,7 @@ Images:
   - v7.0.2
   - v8.1.0
   - v8.2.0
+  - v8.3.0
 - SourceImage: registry.k8s.io/sig-storage/livenessprobe
   Tags:
   - v2.10.0
