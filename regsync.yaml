@@ -12459,6 +12459,9 @@ sync:
 - source: registry.k8s.io/sig-storage/csi-resizer:v1.13.2
   target: docker.io/rancher/mirrored-sig-storage-csi-resizer:v1.13.2
   type: image
+- source: registry.k8s.io/sig-storage/csi-resizer:v1.14.0
+  target: docker.io/rancher/mirrored-sig-storage-csi-resizer:v1.14.0
+  type: image
 - source: registry.k8s.io/sig-storage/csi-resizer:v1.3.0
   target: docker.io/rancher/mirrored-sig-storage-csi-resizer:v1.3.0
   type: image
@@ -12494,6 +12497,9 @@ sync:
   type: image
 - source: registry.k8s.io/sig-storage/csi-resizer:v1.13.2
   target: registry.suse.com/rancher/mirrored-sig-storage-csi-resizer:v1.13.2
+  type: image
+- source: registry.k8s.io/sig-storage/csi-resizer:v1.14.0
+  target: registry.suse.com/rancher/mirrored-sig-storage-csi-resizer:v1.14.0
   type: image
 - source: registry.k8s.io/sig-storage/csi-resizer:v1.3.0
   target: registry.suse.com/rancher/mirrored-sig-storage-csi-resizer:v1.3.0
