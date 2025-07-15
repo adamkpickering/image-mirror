@@ -3174,6 +3174,9 @@ sync:
 - source: library/traefik:3.3.6
   target: docker.io/rancher/mirrored-library-traefik:3.3.6
   type: image
+- source: library/traefik:3.4.4
+  target: docker.io/rancher/mirrored-library-traefik:3.4.4
+  type: image
 - source: library/traefik:2.10.5
   target: registry.suse.com/rancher/mirrored-library-traefik:2.10.5
   type: image
@@ -3248,6 +3251,9 @@ sync:
   type: image
 - source: library/traefik:3.3.6
   target: registry.suse.com/rancher/mirrored-library-traefik:3.3.6
+  type: image
+- source: library/traefik:3.4.4
+  target: registry.suse.com/rancher/mirrored-library-traefik:3.4.4
   type: image
 - source: longhornio/backing-image-manager:v1_20210422
   target: docker.io/rancher/longhornio-backing-image-manager:v1_20210422
