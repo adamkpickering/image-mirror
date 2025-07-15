@@ -828,6 +828,7 @@ Images:
   - 3.3.3
   - 3.3.5
   - 3.3.6
+  - 3.4.4
 - SourceImage: longhornio/backing-image-manager
   Tags:
   - v1_20210422
