@@ -1287,6 +1287,9 @@ sync:
 - source: ghcr.io/kube-vip/kube-vip-iptables:v0.9.0
   target: docker.io/rancher/mirrored-kube-vip-kube-vip-iptables:v0.9.0
   type: image
+- source: ghcr.io/kube-vip/kube-vip-iptables:v0.9.2
+  target: docker.io/rancher/mirrored-kube-vip-kube-vip-iptables:v0.9.2
+  type: image
 - source: ghcr.io/kube-vip/kube-vip-iptables:v0.6.0
   target: registry.suse.com/rancher/mirrored-kube-vip-kube-vip-iptables:v0.6.0
   type: image
@@ -1310,6 +1313,9 @@ sync:
   type: image
 - source: ghcr.io/kube-vip/kube-vip-iptables:v0.9.0
   target: registry.suse.com/rancher/mirrored-kube-vip-kube-vip-iptables:v0.9.0
+  type: image
+- source: ghcr.io/kube-vip/kube-vip-iptables:v0.9.2
+  target: registry.suse.com/rancher/mirrored-kube-vip-kube-vip-iptables:v0.9.2
   type: image
 - source: ghcr.io/prometheus-community/windows-exporter:0.25.1
   target: docker.io/rancher/mirrored-prometheus-windows-exporter:0.25.1
